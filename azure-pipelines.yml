@@ -24,8 +24,9 @@ steps:
    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
-   echo Installed 'UG4' via ughub.
+   if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then echo "Installed UG4 via ughub" fi
    mkdir build; cd build
+   ls -l ..
    cmake ..
    make
    echo Add other tasks to build, test, and deploy your project.
