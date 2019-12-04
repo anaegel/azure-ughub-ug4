@@ -21,8 +21,6 @@ stages:
   dependsOn: UGHubInstall
   jobs: 
   - job: UGCompile
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
     - bash: echo UGHubDownload
     
