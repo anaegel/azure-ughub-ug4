@@ -13,7 +13,7 @@ stages:
   - job: UGHubBuild
   displayName: 'Build via UGhub'
   steps:
-  - script: |
+  - bash: |
     mkdir ug4; cd ug4;
     git clone https://www.github.com/UG4/ughub
     echo Installed 'ughub'.
