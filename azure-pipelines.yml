@@ -15,8 +15,8 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - script: |
-        mkdir "$(System.DefaultWorkingDirectory)/ug4"; 
-        cd "$(System.DefaultWorkingDirectory)/ug4";
+        mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         git clone https://www.github.com/UG4/ughub
         echo Installed 'ughub'.
         export UG4_FOLDER_SURVIVED_CACHE=false
@@ -29,7 +29,7 @@ stages:
         ../ughub/ughub install ConvectionDiffusion
         echo "Installed UG4 via ughub"
         pwd
-        cd "$(System.DefaultWorkingDirectory)/ug4";
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         mkdir build; cd build
         ls -l ..
         cmake ..
@@ -42,7 +42,7 @@ stages:
   - job: UGCompile
     steps:
     - script: |
-        cd "$(System.DefaultWorkingDirectory)/ug4";
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         mkdir build; cd build
         ls -l ..
         cmake ..
