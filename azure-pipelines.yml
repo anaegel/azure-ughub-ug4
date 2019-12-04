@@ -35,7 +35,12 @@ stages:
   jobs: 
   - job: UGCompile
     steps:
-    - bash: echo UGHubDownload
+    - script: |
+        ls; cd ug4;
+        mkdir build; cd build
+        ls -l ..
+        cmake ..
+        make -j16echo UGHubDownload
     
  
  
