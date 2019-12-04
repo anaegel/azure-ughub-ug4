@@ -14,7 +14,9 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - bash: echo UGHubDownload
+    - bash: |
+    set MYVAR=foo
+    setecho 
   
 - stage: CompileTest
   displayName: 'Compile UG4'
