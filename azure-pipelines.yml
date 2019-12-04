@@ -13,7 +13,7 @@ stages:
   - job: UGHubDownload
     pool:
       vmImage: 'ubuntu-latest'
-    timeoutInMinutes: 90  
+    timeoutInMinutes: 300  
     steps:
     - script: |
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
