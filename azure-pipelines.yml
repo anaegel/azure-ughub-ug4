@@ -14,9 +14,9 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - bash: |
-      set MYVAR=foo
-      setecho 
+    - scripts: |
+        set MYVAR=foo
+        setecho 
   
 - stage: CompileTest
   displayName: 'Compile UG4'
