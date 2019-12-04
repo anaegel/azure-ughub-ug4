@@ -4,28 +4,28 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+
 
 stages:
 - stage: UGHubInstall
   displayName: 'Install via UGhub'
   jobs: 
   - job: UGHubDownload
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
-    - bash: |
-      echo UGHubDownload
-      echo UGHubDownload2
-    
+    - bash: echo UGHubDownload
   
 - stage: CompileTest
   displayName: 'Compile UG4'
   dependsOn: UGHubInstall
   jobs: 
   - job: UGCompile
+    timeoutInMinutes: 90
+     pool:
+      vmImage: 'ubuntu-latest'
     steps:
-    - bash: |
-      echo UGHubDownload
-      echo UGHubDownload2
+    - bash: echo UGHubDownload
+    
  
  
