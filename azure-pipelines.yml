@@ -15,7 +15,8 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
     - script: |
-        mkdir ug4; cd ug4;
+        mkdir "$(System.DefaultWorkingDirectory)/ug4"; 
+        cd "$(System.DefaultWorkingDirectory)/ug4";
         git clone https://www.github.com/UG4/ughub
         echo Installed 'ughub'.
         export UG4_FOLDER_SURVIVED_CACHE=false
@@ -36,7 +37,7 @@ stages:
   - job: UGCompile
     steps:
     - script: |
-        ls; cd ug4;
+        cd "$(System.DefaultWorkingDirectory)/ug4";
         mkdir build; cd build
         ls -l ..
         cmake ..
