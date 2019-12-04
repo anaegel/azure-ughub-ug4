@@ -29,7 +29,7 @@ stages:
         ../ughub/ughub install ConvectionDiffusion
         echo "Installed UG4 via ughub"
         pwd
-        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..
         cmake ..
