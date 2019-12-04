@@ -11,6 +11,7 @@ stages:
 - stage: Build
   jobs: 
   - job: UGHubBuild
+  displayName: 'Build via UGhub'
   steps:
   - script: |
     mkdir ug4; cd ug4;
