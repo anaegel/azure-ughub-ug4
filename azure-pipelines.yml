@@ -10,7 +10,7 @@ pool:
 stages:
 - stage: Build
   jobs: 
-  -job UGHubBuild
+  - job: UGHubBuild
   steps:
   - script: |
     mkdir ug4; cd ug4;
