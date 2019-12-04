@@ -27,7 +27,7 @@ stages:
         if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
         ../ughub/ughub install ConvectionDiffusion
         echo "Installed UG4 via ughub"
- 
+        pwd
   
 - stage: CompileTest
   displayName: 'Compile UG4'
