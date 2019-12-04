@@ -8,29 +8,31 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: Build
+- stage: UGHubInstall
   jobs: 
-  - job: UGHubBuild
-  displayName: 'Build via UGhub'
-  steps:
-  - bash: |
-    mkdir ug4; cd ug4;
-    git clone https://www.github.com/UG4/ughub
-    echo Installed 'ughub'.
-    export UG4_FOLDER_SURVIVED_CACHE=false
-    if [ -e ug4 ]; then export UG4_FOLDER_SURVIVED_CACHE=true; fi
-    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then mkdir ug4; fi
-    cd ug4
-    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
-    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
-    if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
-    ../ughub/ughub install ConvectionDiffusion
-    echo "Installed UG4 via ughub"
-    mkdir build; cd build
-    ls -l ..
-    cmake ..
-    make -j16
-    echo Add other tasks to build, test, and deploy your project.
+  - job: UGHubDownload
+    steps:
+    - bash: |
+      mkdir ug4; cd ug4;
+      git clone https://www.github.com/UG4/ughub
+      echo Installed 'ughub'.
+      export UG4_FOLDER_SURVIVED_CACHE=false
+      if [ -e ug4 ]; then export UG4_FOLDER_SURVIVED_CACHE=true; fi
+      if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then mkdir ug4; fi
+      cd ug4
+      if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
+      if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
+      if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
+      ../ughub/ughub install ConvectionDiffusion
+      echo "Installed UG4 via ughub"
+      mkdir build; cd build
+      ls -l ..
+      cmake ..
+      make -j16
+      echo Add other tasks to build, test, and deploy your project.
       echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  displayName: 'Install via UGhub'
   timeoutInMinutes: 90
+- stage: CompileTest
+  dependsOn:
+    -UGHubInstall
