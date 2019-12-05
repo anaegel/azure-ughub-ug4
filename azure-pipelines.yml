@@ -14,7 +14,8 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - script: "|
+    - timeoutInMinutes: 300 
+      script: |
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
         cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         git clone https://www.github.com/UG4/ughub
@@ -31,11 +32,10 @@ stages:
         pwd
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
-        ls -l ..
-        cmake ..
-        make -j 16"
-     timeoutInMinutes: 300  
-  
+        ls -l ..;
+        cmake ..;
+        make -j 16
+    
 - stage: CompileTest
   displayName: 'Compile UG4'
   dependsOn: UGHubInstall
