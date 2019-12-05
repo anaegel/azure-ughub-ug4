@@ -14,8 +14,33 @@ stages:
   displayName: 'Install via UGhub'
   jobs: 
   - job: UGHubDownload
+    displayName: 'Download'
     pool:
       vmImage: 'ubuntu-latest'
+      
+    steps:
+    - script: |
+        which "$(MY_CXX)"
+        mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
+        git clone https://www.github.com/UG4/ughub
+        echo Installed 'ughub'.
+        export UG4_FOLDER_SURVIVED_CACHE=false
+        if [ -e ug4 ]; then export UG4_FOLDER_SURVIVED_CACHE=true; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then mkdir ug4; fi
+        cd ug4
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
+        ../ughub/ughub install ConvectionDiffusion
+        echo "Installed UG4 via ughub"
+
+  
+  - job: UGCompile
+    displayName: 'Compiling'
+    dependsOn: UGHubDownload
+    pool:
+      vmImage: 'ubuntu-latest' 
       strategy:
         matrix:
           Clang-6 Debug:
@@ -35,20 +60,6 @@ stages:
     steps:
     - script: |
         which "$(MY_CXX)"
-        mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
-        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
-        git clone https://www.github.com/UG4/ughub
-        echo Installed 'ughub'.
-        export UG4_FOLDER_SURVIVED_CACHE=false
-        if [ -e ug4 ]; then export UG4_FOLDER_SURVIVED_CACHE=true; fi
-        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then mkdir ug4; fi
-        cd ug4
-        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
-        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
-        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
-        ../ughub/ughub install ConvectionDiffusion
-        echo "Installed UG4 via ughub"
-        pwd
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..;
@@ -57,16 +68,6 @@ stages:
         
       timeoutInMinutes: 300 
   
-  - job: UGCompile
-    displayName: 'Compiling'
-    dependsOn: UGHubDownload
-    pool:
-      vmImage: 'ubuntu-latest' 
-    steps:
-    - script: |
-        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
-        mkdir build; cd build
-        ls -l ..
   
 - stage: SecondStage
   displayName: 'Compile UG4'
