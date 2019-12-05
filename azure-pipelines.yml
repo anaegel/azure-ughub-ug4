@@ -58,6 +58,8 @@ stages:
       timeoutInMinutes: 300 
   
   - job: UGCompile
+    displayName: 'Compiling'
+    dependsOn: UGHubDownload
     pool:
       vmImage: 'ubuntu-latest' 
     steps:
