@@ -13,6 +13,22 @@ stages:
   - job: UGHubDownload
     pool:
       vmImage: 'ubuntu-latest'
+      strategy:
+    matrix:
+      Clang-6 Debug:
+        CC: clang-6.0
+        CXX: clang++-6.0
+        BuildType: Debug
+        SelfHost: false
+        CMakeArgs: ''
+
+      GCC-7 Debug:
+        CC: gcc-7
+        CXX: g++-7
+        BuildType: Debug
+        SelfHost: false
+        CMakeArgs: ''
+
     steps:
     - script: |
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
@@ -32,7 +48,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..;
-        cmake ..;
+        cmake .. -DPARALEL=OFF;
         make -j 16;
         
       timeoutInMinutes: 300 
