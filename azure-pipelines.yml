@@ -6,7 +6,7 @@ trigger:
 
 variables:
   MY_CC: '/usr/bin/clang'
-  MY_CXX: '/usr/bin/clang++'
+  MY_CXX: '/usr/bin/clang'
 
 
 stages:
@@ -17,19 +17,24 @@ stages:
     displayName: 'Download'
     strategy:
       matrix:
-        linux:
+        linux-clang:
           imageName: "ubuntu-latest"
-        mac:
+          cxxCompiler: '/usr/bin/clang++'
+          ccCompiler: '/usr/bin/clang'
+        linux-gnu:
+          imageName: "ubuntu-latest"
+          cxxCompiler: '/usr/bin/g++'
+          ccCompiler: '/usr/bin/gcc'
+        mac-clang:
           imageName: "macos-10.13"
-        windows:
-          imageName: "vs2017-win2016"
+          cxxCompiler: '/usr/bin/clang++'
+          ccCompiler: '/usr/bin/clang'
       maxParallel: 3
     pool:
       vmImage: $(imageName)
       
     steps:
     - script: |
-        which "$(MY_CXX)"
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
         cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         git clone https://www.github.com/UG4/ughub
@@ -49,7 +54,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..;
-        cmake .. -DCMAKE_CXX_COMPILER"=$(MY_CXX)" -DCMAKE_C_COMPILER="$(MY_CC)" -DPARALLEL=OFF
+        cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DPARALLEL=OFF
         make -j 16;
         
       timeoutInMinutes: 300 
