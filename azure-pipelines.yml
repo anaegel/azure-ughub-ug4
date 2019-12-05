@@ -67,8 +67,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         mkdir build; cd build
         ls -l ..
-        cmake ..
-        make -j16echo UGHubDownload
+     
     
  
  
