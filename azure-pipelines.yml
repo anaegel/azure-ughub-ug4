@@ -13,9 +13,8 @@ stages:
   - job: UGHubDownload
     pool:
       vmImage: 'ubuntu-latest'
-    timeoutInMinutes: 300  
     steps:
-    - script: |
+    - script: "|
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
         cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         git clone https://www.github.com/UG4/ughub
@@ -34,7 +33,8 @@ stages:
         mkdir build; cd build
         ls -l ..
         cmake ..
-        make -j 16
+        make -j 16"
+     timeoutInMinutes: 300  
   
 - stage: CompileTest
   displayName: 'Compile UG4'
