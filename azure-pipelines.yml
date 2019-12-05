@@ -52,7 +52,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..;
-        cmake .. "-DCMAKE_CXX_COMPILER=$(MY_CXX) -DCMAKE_C_COMPILER=$(MY_CC)" -DPARALLEL=OFF
+        cmake .. -DCMAKE_CXX_COMPILER"=$(MY_CXX)" -DCMAKE_C_COMPILER="$(MY_CC)" -DPARALLEL=OFF
         make -j 16;
         
       timeoutInMinutes: 300 
