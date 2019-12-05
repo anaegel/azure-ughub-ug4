@@ -34,7 +34,16 @@ stages:
         if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
         ../ughub/ughub install ConvectionDiffusion
         echo "Installed UG4 via ughub"
-
+        
+    - script: |
+        which "$(MY_CXX)"
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
+        mkdir build; cd build
+        ls -l ..;
+        cmake .. -DCMAKE_CXX_COMPILER"=$(MY_CXX)" -DCMAKE_C_COMPILER="$(MY_CC)" -DPARALLEL=OFF
+        make -j 16;
+        
+      timeoutInMinutes: 300 
   
   - job: UGCompile
     displayName: 'Compiling'
@@ -58,15 +67,8 @@ stages:
             CMakeArgs: ''
 
     steps:
-    - script: |
-        which "$(MY_CXX)"
-        cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
-        mkdir build; cd build
-        ls -l ..;
-        cmake .. -DCMAKE_CXX_COMPILER"=$(MY_CXX)" -DCMAKE_C_COMPILER="$(MY_CC)" -DPARALLEL=OFF
-        make -j 16;
-        
-      timeoutInMinutes: 300 
+    - script: ls -l
+  
   
   
 - stage: SecondStage
