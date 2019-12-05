@@ -16,15 +16,15 @@ stages:
       strategy:
         matrix:
           Clang-6 Debug:
-            CC: clang
-            CXX: clang++
+            CC: 'clang'
+            CXX: 'clang++'
             BuildType: Debug
             SelfHost: false
             CMakeArgs: ''
 
           GCC-7 Debug:
-            CC: gcc
-            CXX: g++
+            CC: 'gcc'
+            CXX: 'g++'
             BuildType: Debug
             SelfHost: false
             CMakeArgs: ''
