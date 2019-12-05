@@ -56,17 +56,23 @@ stages:
         make -j 16;
         
       timeoutInMinutes: 300 
-    
-- stage: CompileTest
-  displayName: 'Compile UG4'
-  dependsOn: UGHubInstall
-  jobs: 
+  
   - job: UGCompile
+    pool:
+      vmImage: 'ubuntu-latest' 
     steps:
     - script: |
         cd "$(System.DefaultWorkingDirectory)/ug4-clone";
         mkdir build; cd build
         ls -l ..
+  
+- stage: SecondStage
+  displayName: 'Compile UG4'
+  dependsOn: UGHubInstall
+  jobs: 
+  - job: UGCompile
+    steps:
+    - script: ls -l
      
     
  
