@@ -14,20 +14,20 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
       strategy:
-    matrix:
-      Clang-6 Debug:
-        CC: clang-6.0
-        CXX: clang++-6.0
-        BuildType: Debug
-        SelfHost: false
-        CMakeArgs: ''
+        matrix:
+          Clang-6 Debug:
+            CC: clang-6.0
+            CXX: clang++-6.0
+            BuildType: Debug
+            SelfHost: false
+            CMakeArgs: ''
 
-      GCC-7 Debug:
-        CC: gcc-7
-        CXX: g++-7
-        BuildType: Debug
-        SelfHost: false
-        CMakeArgs: ''
+          GCC-7 Debug:
+            CC: gcc-7
+            CXX: g++-7
+            BuildType: Debug
+            SelfHost: false
+            CMakeArgs: ''
 
     steps:
     - script: |
