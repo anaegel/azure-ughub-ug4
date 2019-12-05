@@ -4,6 +4,9 @@
 trigger:
 - master
 
+variables:
+  MY_CC: 'clang'
+  MY_CXX: 'clang++'
 
 
 stages:
@@ -48,7 +51,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir build; cd build
         ls -l ..;
-        "cmake .. -DCMAKE_CXX_COMPILER=$(CXX) -DCMAKE_C_COMPILER=$(CC) -DPARALLEL=OFF"
+        "cmake .. -DCMAKE_CXX_COMPILER=$(MY_CXX) -DCMAKE_C_COMPILER=$(MY_CC) -DPARALLEL=OFF"
         make -j 16;
         
       timeoutInMinutes: 300 
