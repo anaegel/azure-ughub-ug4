@@ -21,14 +21,17 @@ stages:
           imageName: "ubuntu-latest"
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
+          buildName: 'build-linux-clang'
         linux-gnu:
           imageName: "ubuntu-latest"
           cxxCompiler: '/usr/bin/g++'
           ccCompiler: '/usr/bin/gcc'
+          buildName: 'build-linux-gcc'
         mac-clang:
           imageName: "macos-10.13"
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
+          buildName: 'build-mac-clang'
       maxParallel: 3
     pool:
       vmImage: $(imageName)
@@ -51,13 +54,14 @@ stages:
         
     - script: |
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
-        mkdir build; cd build
+        mkdir $(buildName); cd $(buildName)
         ls -l ..;
         cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DPARALLEL=OFF
         
     - script: |
-        cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4/build";
-        cd build
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
+        ls ..
+        cd $(buildName)
         make -j 16;
         
       timeoutInMinutes: 300 
