@@ -60,7 +60,7 @@ stages:
         
     - script: |
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
-        ls ..
+        ls -l
         cd $(buildName)
         make -j 16;
         
