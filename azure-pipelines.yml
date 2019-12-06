@@ -24,8 +24,8 @@ stages:
           buildName: 'build-linux-clang'
         linux-gnu:
           imageName: "ubuntu-latest"
-          cxxCompiler: '/usr/bin/g++'
-          ccCompiler: '/usr/bin/gcc'
+          cxxCompiler: '/usr/bin/g++-7'
+          ccCompiler: '/usr/bin/gcc-7'
           buildName: 'build-linux-gcc'
         mac-clang:
           imageName: "macos-10.13"
