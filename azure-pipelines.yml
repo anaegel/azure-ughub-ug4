@@ -22,20 +22,32 @@ stages:
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
           buildName: 'build-linux-clang'
-          addString: ''
+          CMakeArgs: '-DPARALLEL=OFF'
+        linux-clang-mpi:
+          imageName: "ubuntu-latest"
+          cxxCompiler: '/usr/bin/mpic++-mpich-clang'
+          ccCompiler: '/usr/bin/mpicc-mpich-clang'
+          buildName: 'build-linux-clang-mpi'
+          CMakeArgs: ''
         linux-gnu:
           imageName: "ubuntu-latest"
           cxxCompiler: '/usr/bin/g++'
           ccCompiler: '/usr/bin/gcc'
           buildName: 'build-linux-gcc'
-          addString: ''
+          CMakeArgs: '-DPARALLEL=OFF'
+        linux-gnu-mpic:
+          imageName: "ubuntu-latest"
+          cxxCompiler: '/usr/bin/mpic++-mpich-gcc'
+          ccCompiler: '/usr/bin/mpicc-mpich-gcc'
+          buildName: 'build-linux-gcc'
+          CMakeArgs: '-DPARALLEL=OFF'
         mac-clang:
           imageName: "macos-10.13"
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
           buildName: 'build-mac-clang'
-          addString: ''
-      maxParallel: 3
+          CMakeArgs: '-DPARALLEL=OFF'
+      maxParallel: 6
     pool:
       vmImage: $(imageName)
     timeoutInMinutes: 300   
@@ -59,7 +71,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir $(buildName); cd $(buildName)
         ls -l ..;
-        cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DPARALLEL=OFF -DConvectionDiffusion=ON $(addString)
+        cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DConvectionDiffusion=ON $(CMakeArgs)
         
     - script: |
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
