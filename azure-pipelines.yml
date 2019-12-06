@@ -25,8 +25,8 @@ stages:
           addString: ''
         linux-gnu:
           imageName: "ubuntu-latest"
-          cxxCompiler: '/usr/bin/g++-7'
-          ccCompiler: '/usr/bin/gcc-7'
+          cxxCompiler: '/usr/bin/g++-8'
+          ccCompiler: '/usr/bin/gcc-8'
           buildName: 'build-linux-gcc'
           addString: '-DDEBUG=ON'
         mac-clang:
@@ -38,7 +38,7 @@ stages:
       maxParallel: 3
     pool:
       vmImage: $(imageName)
-      
+    timeoutInMinutes: 300   
     steps:
     - script: |
         mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
@@ -65,9 +65,8 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         ls -l
         cd $(buildName)
-        make -j 16;
-        
-      timeoutInMinutes: 300 
+        make -j 10;
+      
   
   - job: UGCompile
     displayName: 'Compiling'
