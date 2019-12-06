@@ -22,16 +22,19 @@ stages:
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
           buildName: 'build-linux-clang'
+          addString: ''
         linux-gnu:
           imageName: "ubuntu-latest"
           cxxCompiler: '/usr/bin/g++-7'
           ccCompiler: '/usr/bin/gcc-7'
           buildName: 'build-linux-gcc'
+          addString: '-DDEBUG'
         mac-clang:
           imageName: "macos-10.13"
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
           buildName: 'build-mac-clang'
+          addString: ''
       maxParallel: 3
     pool:
       vmImage: $(imageName)
@@ -56,7 +59,7 @@ stages:
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
         mkdir $(buildName); cd $(buildName)
         ls -l ..;
-        cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DPARALLEL=OFF
+        cmake .. -DCMAKE_CXX_COMPILER"=$(cxxCompiler)" -DCMAKE_C_COMPILER="$(ccCompiler)" -DPARALLEL=OFF -DConvectionDiffusion=ON $(addString)
         
     - script: |
         cd "$(System.DefaultWorkingDirectory)/ug4-clone/ug4";
