@@ -11,10 +11,10 @@ variables:
 
 stages:
 - stage: UGHubInstall
-  displayName: 'Install via UGhub'
+  displayName: 'UG4 via ughub:'
   jobs: 
   - job: UGHubDownload
-    displayName: 'Download'
+    displayName: 'build'
     strategy:
       matrix:
         linux-clang:
