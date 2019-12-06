@@ -28,7 +28,7 @@ stages:
           cxxCompiler: '/usr/bin/g++'
           ccCompiler: '/usr/bin/gcc'
           buildName: 'build-linux-gcc'
-          addString: '-DDEBUG=ON'
+          addString: ''
         mac-clang:
           imageName: "macos-10.13"
           cxxCompiler: '/usr/bin/clang++'
