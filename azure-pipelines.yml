@@ -25,8 +25,8 @@ stages:
           addString: ''
         linux-gnu:
           imageName: "ubuntu-latest"
-          cxxCompiler: '/usr/bin/g++-8'
-          ccCompiler: '/usr/bin/gcc-8'
+          cxxCompiler: '/usr/bin/g++-6'
+          ccCompiler: '/usr/bin/gcc-6'
           buildName: 'build-linux-gcc'
           addString: '-DDEBUG=ON'
         mac-clang:
