@@ -16,6 +16,9 @@ stages:
   - job: APTList
     steps:
     - script: apt-cache search .
+    - script: sudo apt install mpich
+    - script: apt-cache search .
+    
   - job: UGHubDownload
     displayName: 'build'
     dependsOn: APTList
