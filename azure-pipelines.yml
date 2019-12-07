@@ -14,7 +14,7 @@ stages:
   displayName: 'UG4 via ughub:'
   jobs: 
   - job: APTList
-   steps:
+    steps:
     - script: apt-cache search .
   - job: UGHubDownload
     displayName: 'build'
