@@ -13,8 +13,12 @@ stages:
 - stage: UGHubInstall
   displayName: 'UG4 via ughub:'
   jobs: 
+  - job: APTList
+   steps:
+    - script: apt-cache search .
   - job: UGHubDownload
     displayName: 'build'
+    dependsOn: APTList
     strategy:
       matrix:
         linux-clang:
