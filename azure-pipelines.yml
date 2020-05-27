@@ -13,7 +13,7 @@ stages:
 - stage: UGHubInstall
   displayName: 'UG4 via ughub:'
   jobs: 
-  - job: APTList
+  - job: APTInstall
     steps:
     - script: apt-cache search .
     - script: sudo apt install mpich
@@ -21,7 +21,7 @@ stages:
      
   - job: UGCompile
     displayName: 'Compiling'
-    dependsOn: UGHubDownload
+    dependsOn: APTInstall
     strategy:
       matrix:
         linux-clang:
