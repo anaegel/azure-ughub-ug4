@@ -22,6 +22,30 @@ stages:
   - job: UGHubDownload
     displayName: 'build'
     dependsOn: APTList
+    
+    pool:
+      vmImage: $(imageName)
+    timeoutInMinutes: 300   
+    steps:
+    - script: |
+        mkdir "$(System.DefaultWorkingDirectory)/ug4-clone"; 
+        cd "$(System.DefaultWorkingDirectory)/ug4-clone";
+        git clone https://www.github.com/UG4/ughub
+        echo Installed 'ughub'.
+        export UG4_FOLDER_SURVIVED_CACHE=false
+        if [ -e ug4 ]; then export UG4_FOLDER_SURVIVED_CACHE=true; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then mkdir ug4; fi
+        cd ug4
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub init .; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then ../ughub/ughub install ugcore; fi
+        if [[ "$UG4_FOLDER_SURVIVED_CACHE" == "false" ]]; then rm -rf ugcore; fi
+        ../ughub/ughub install ConvectionDiffusion
+        echo "Installed UG4 via ughub"
+      
+  
+  - job: UGCompile
+    displayName: 'Compiling'
+    dependsOn: UGHubDownload
     strategy:
       matrix:
         linux-clang:
@@ -85,31 +109,6 @@ stages:
         ls -l
         cd $(buildName)
         make -j 10;
-      
-  
-  - job: UGCompile
-    displayName: 'Compiling'
-    dependsOn: UGHubDownload
-    pool:
-      vmImage: 'ubuntu-latest' 
-      strategy:
-        matrix:
-          Clang-6 Debug:
-            CC: 'clang'
-            CXX: 'clang++'
-            BuildType: Debug
-            SelfHost: false
-            CMakeArgs: ''
-
-          GCC-7 Debug:
-            CC: 'gcc'
-            CXX: 'g++'
-            BuildType: Debug
-            SelfHost: false
-            CMakeArgs: ''
-
-    steps:
-    - script: ls -l
   
   
   
