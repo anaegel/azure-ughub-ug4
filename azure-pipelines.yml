@@ -49,7 +49,7 @@ stages:
           buildName: 'build-linux-gcc'
           CMakeArgs: '-DPARALLEL=OFF'
         mac-clang:
-          imageName: "macos-10.13"
+          imageName: "macOs-latest"
           cxxCompiler: '/usr/bin/clang++'
           ccCompiler: '/usr/bin/clang'
           buildName: 'build-mac-clang'
